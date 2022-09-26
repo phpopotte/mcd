@@ -164,6 +164,49 @@ SELECT service , COUNT(id_employes) AS nombre FROM employes GROUP BY service  HA
 -- Attention à l'ordre :
 -- SELECT .... FROM .... WHERE ... GROUP BY ....HAVING.... ORDER BY ... LIMIT 
 
+--*************************************************************************
+--     REQUETES D'INSERTION (CREATE le C de notre CRUD)
+--**************************************************************************
+
+-- INSERT INTO
+INSERT INTO employes (prenom, nom, sexe, date_embauche, service, salaire) VALUES ('cesaire', 'desaulle', 'm',NOW() , 'informatique', '2500'); -- L'ordre des champs et des valeurs entre les 2 paires de () doit être respecté. L'id_employes nn'est pas nécessaire car clé primaire donc auto-incrémenté par la BDD
+
+-- INSERTION sans préciser les champs ou colonnes:
+INSERT INTO employes VALUES (NULL, 'john', 'doe', 'm', 'commercial', NOW(), 2000 );--on peut inserer un employé sans préciser la liste des champs si les valeurs données respectent l'ordre et le type des champs dans la BDD, y compris l'id_employes que nous mettons à NULL afin qu'il soit auto-incrémenté par la BDD
+
+
+
+-- ******************************************************************************
+--                     REQUETES DE MODIFICATION (UPDATE, le U de notre CRUD)
+--********************************************************************************
+-- UPDATE
+UPDATE employes SET salaire =5000 WHERE prenom='cesaire'; -- modifie le salaire de l'employe dont le prenom est 'cesaire' avec une valeur de 5000.
+
+-- A NE PAS FAIRE : UN update sans clause WHERE . ici on modifirai tout les enregistrements
+UPDATE employes SET salaire =5000;
+
+
+-- REPLACE
+REPLACE INTO employes (id_employes, prenom, nom, sexe, service, date_embauche, salaire) VALUES (2000, 'john', 'doe', 'm', 'commercial', NOW(), 2000 );
+    -- SE comporte comme un INSERT INTO car l'id_employes 2000 n'est pas existant en BDD
+
+
+REPLACE INTO employes (id_employes, prenom, nom, sexe, service, date_embauche, salaire) VALUES (2000, 'john', 'doe', 'm', 'commercial', NOW(), 50000 );
+        -- A present l'id_employes 2000 est existant, REPLACE INTO se comporte comme UN UPDATE 
+
+--***********************************************************************************************
+--    REQUETE DE SUPRESSION (Le D de DELETE de notre CRUD)
+--**********************************************************************************************
+        -- DELETE
+DELETE FROM employes WHERE id_employes=2000; -- suppression de l'employe d'id 2000
+
+DELETE FROM employes WHERE id_employes=2000 OR id_employes=2001; -- il s'agit d'un OR car un employes ne peut avoir 2 id différents
+
+-- A NE PAS FAIRE : DELETE sans clause WHERE
+DELETE FROM employes;   -- revient vider la table employes. equivalent à TRUNCATE 
+
+
+
 
 -- ***************************
 -- Exercices
@@ -178,13 +221,17 @@ SELECT date_embauche AS date_embauche_Amendine FROM employes WHERE prenom = "Ama
 SELECT COUNT(id_employes) AS nb_commerciaux FROM employes WHERE service = "commercial";
 
 -- 4. Afficher le salaire des commerciaux sur 1 année
-SELECT salaire*12 AS salaire_annuel_commerciaux FROM employes WHERE service = 'commerciaux';
+SELECT nom, prenom, salaire*12 AS salaire_annuel_commercial FROM employes WHERE service = 'commercial';
+SELECT SUM(salaire*12) AS salaire_annuel_commerciaux FROM employes WHERE service = 'commercial';
 
 -- 5. Afficher le salaire moyen par service
-SELECT service, ROUND(AVG(salaire)) AS salaire_moyen_par_service FROM employes GROUP BY employes.service;
+SELECT service, ROUND(AVG(salaire),2) AS salaire_moyen_par_service FROM employes GROUP BY service;
 
 -- 6. Afficher le nombre de recrutement sur 2010
 SELECT COUNT(id_employes) AS nb_recrutement_2010 FROM employes WHERE date_embauche BETWEEN '2010-01-01' AND '2010-12-31';
+SELECT COUNT(id_employes) AS nb_recrutement_2010 FROM employes WHERE date_embauche LIKE '2010%';
+SELECT COUNT(id_employes) AS nb_recrutement_2010 FROM employes WHERE date_embauche >= '2010-01-01' AND date_embauche <= '2010-12-31';
+
 
 -- 7. Afficher le nombre de services DIFFERENTS
 SELECT COUNT(DISTINCT service) AS nb_services FROM employes;
