@@ -1,0 +1,19 @@
+********************************************************************************************
+                                       INTRODUCTION
+********************************************************************************************     
+Quelques définitions:
+
+SQL= Structured Query Language
+Il s'agit d'un language qui nous permet d'interroger une base de donnée (bdd).
+
+Base de donnée (BDD) :
+Il s'agit d'un emplacement de données sauvegardées et qui permet d'effectuer des opérations de lecture et d'écriture sur ces mêmes données.
+
+Une BDD est constituée de TABLES (ex: utilisateur) qui contiennent des COLONNES (ou Champs) (ex: email, mot_de_passe, nom, prenom ) dans lesquelles on stocke des enregistrement (ou ligne ) (dans notre exemple, 1 membre= ligne )
+chaque table doit contenir une colonne id (identifiant) que l'on appelle CLE PRIMAIRE et qui va permettre d'identifier un enregistrement de manière unique. Cet id va naturelement  en tant que clé primaire s'auto-incrémenter (++ à partir de 1).
+      
+ SGBD = Système de Gestion de Base de Données
+ c'est un logiciel   qui sert d'interface entre l'utilisateur et la BDD permettant d'effectuer ces opérations de lecture ou d'écriture.
+ 
+ CRUD = acronyme pour CREATE,READ,UPDATE,DELETE 
+ 4 opérations de base pour le stockage et la manipulation des données en bdd                       
